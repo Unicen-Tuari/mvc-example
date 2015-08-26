@@ -1,14 +1,14 @@
 <?php
-require('./libs/Smarty.class.php');
+include_once 'libs/Smarty.class.php';
 
-class ViewTareas {
+class TaskView {
   private $smarty;
 
   function __construct() {
       $this->smarty = new Smarty;
   }
 
-  public function mostrarPagina($tareas){
+  public function showPage($tareas){
       $this->smarty->assign("tareas", $tareas);
       $this->smarty->display('index.tpl');
   }
