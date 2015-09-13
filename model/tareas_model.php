@@ -48,13 +48,13 @@ try{
     $id_tarea = $this->db->lastInsertId();
 //Insertar las imagenes
     foreach ($destinos_finales as $key => $value) {
-      $consulta = $this->db->prepare('INSERT INTO imagen(id,fk_id_tarea,path) VALUES(1,?,?)');
+      $consulta = $this->db->prepare('INSERT INTO imagen(fk_id_tarea,path) VALUES(?,?)');
       $consulta->execute(array($id_tarea, $value));
     }
     $this->db->commit();
   }
   catch(Exception $e){
-    
+
     $this->db->rollBack();
   }
   }
