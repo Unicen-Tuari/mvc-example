@@ -14,10 +14,24 @@ class TareaApi extends Api{
   protected function tarea(){
     if($this->method == 'GET'){      
       return $this->model->getTareas();
-    }
+    }    
     else{
-      return "Only accepts GET";
+      if(count($this->args) == 1){
+        switch($this->method){
+          case 'DELETE': 
+            $this->model->borrarTarea($this->args[0]);            
+            break;
+          case 'PUT':            
+            $entity = json_decode($this->body);
+            $this->model->actualizarTarea($this->args[0],$entity);
+            break;
+        }
+        return "OK";
+      }else{
+        return "INVALID ARGUMENTS";
+      }
     }
+    return "Only accepts GET";
   }
 
 }

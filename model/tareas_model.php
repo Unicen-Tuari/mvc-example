@@ -25,7 +25,7 @@ class TareasModel {
     $consulta = $this->db->prepare("SELECT * FROM tarea");
     $consulta->execute();
 //Todas las tareas
-    while($tarea = $consulta->fetch()) {
+    while($tarea = $consulta->fetch(PDO::FETCH_ASSOC)) {
       $consultaImagenes = $this->db->prepare("SELECT * FROM imagen where fk_id_tarea=?");
       $consultaImagenes->execute(array($tarea['id']));
       $imagenes_tarea = $consultaImagenes->fetchAll();
@@ -67,6 +67,16 @@ try{
   function realizarTarea($id_tarea){
     $consulta = $this->db->prepare('UPDATE tarea SET realizada=1 WHERE id=?');
     $consulta->execute(array($id_tarea));
+  }
+
+  function actualizarTarea($id_tarea, $entity){
+    $consulta = $this->db->prepare('UPDATE tarea SET tarea=:tarea, realizada=:realizada WHERE id=:id');
+    $consulta->execute(array(
+      "tarea" => $entity->tarea,
+      "realizada" => $entity->realizada,
+      "id" => $id_tarea
+      )
+    );
   }
 
 
