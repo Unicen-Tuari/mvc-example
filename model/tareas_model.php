@@ -79,6 +79,26 @@ try{
     );
   }
 
+  private function subirImagenesAjax($imagenes){
+    $carpeta = "uploads/imagenes/";
+    $destinos_finales = array();
+    foreach ($imagenes as $imagen) {
+      $destino =  $carpeta.uniqid().$imagen["name"];
+      move_uploaded_file($imagen["tmp_name"], $destino);
+      $destinos_finales[] = $destino;
+    }
+    return $destinos_finales;
+  }
+
+
+  function agregarImagenes($id_tarea, $imagenes){
+    $rutas=$this->subirImagenesAjax($imagenes);
+    $consulta = $this->db->prepare('INSERT INTO imagen(fk_id_tarea,path) VALUES(?,?)');
+    foreach($rutas as $ruta){
+      $consulta->execute(array($id_tarea,$ruta));
+    }
+  }
+
 
 }
 ?>

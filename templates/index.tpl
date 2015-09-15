@@ -25,6 +25,7 @@
                   {/if}
                   <a class="glyphicon glyphicon-trash" href="index.php?action=borrar_tarea&id_task={$tarea['id']}"></a>
                   <a class="glyphicon glyphicon-ok" href="index.php?action=realizar_tarea&id_task={$tarea['id']}"></a>
+                  <a class="glyphicon glyphicon-plus botonAgregarImagenes" href="index.php?action=agregar_imagenes&id_task={$tarea['id']}"></a>
                   {foreach $tarea['imagenes'] as $imagen}
                   <img src="{$imagen['path']}" alt="imagen-{$imagen['id']}-tarea-{$tarea['id']}" class="img-thumbnail" />
                   {/foreach}
@@ -65,6 +66,4 @@
         </div>
       </div>
     </div>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  </body>
-</html>
+    

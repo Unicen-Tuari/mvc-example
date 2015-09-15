@@ -46,6 +46,15 @@ class TareasController {
     $this->mostrarHome();
   }
 
+  function agregarImagenes(){
+    if(isset($_REQUEST['id_task']) && isset($_FILES)){
+      $this->model->agregarImagenes($_REQUEST['id_task'],$_FILES);
+      echo '{ "result" :  "OK" }';
+    }else{
+      echo '{ "result" :  "Faltan paramentros" }';
+    }
+  }
+
 }
 
 ?>
