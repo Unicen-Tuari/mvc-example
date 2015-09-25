@@ -2,6 +2,7 @@
 //http://www.lornajane.net/posts/2012/building-a-restful-php-server-routing-the-request
 
 require_once('tarea.php');
+require_once('imagen.php');
 try {
   // route the request to the right place
   $url_elements = explode('/', rtrim($_REQUEST['request'], '/'));
