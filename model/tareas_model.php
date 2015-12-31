@@ -25,7 +25,7 @@ class TareasModel {
     $consulta = $this->db->prepare("SELECT * FROM tarea");
     $consulta->execute();
 //Todas las tareas
-    while($tarea = $consulta->fetch()) {
+    while($tarea = $consulta->fetch(PDO::FETCH_ASSOC)) {
       $consultaImagenes = $this->db->prepare("SELECT * FROM imagen where fk_id_tarea=?");
       $consultaImagenes->execute(array($tarea['id']));
       $imagenes_tarea = $consultaImagenes->fetchAll();
@@ -48,13 +48,13 @@ try{
     $id_tarea = $this->db->lastInsertId();
 //Insertar las imagenes
     foreach ($destinos_finales as $key => $value) {
-      $consulta = $this->db->prepare('INSERT INTO imagen(id,fk_id_tarea,path) VALUES(1,?,?)');
+      $consulta = $this->db->prepare('INSERT INTO imagen(fk_id_tarea,path) VALUES(?,?)');
       $consulta->execute(array($id_tarea, $value));
     }
     $this->db->commit();
   }
   catch(Exception $e){
-    
+
     $this->db->rollBack();
   }
   }
@@ -67,6 +67,36 @@ try{
   function realizarTarea($id_tarea){
     $consulta = $this->db->prepare('UPDATE tarea SET realizada=1 WHERE id=?');
     $consulta->execute(array($id_tarea));
+  }
+
+  function actualizarTarea($id_tarea, $entity){
+    $consulta = $this->db->prepare('UPDATE tarea SET tarea=:tarea, realizada=:realizada WHERE id=:id');
+    $consulta->execute(array(
+      "tarea" => $entity->tarea,
+      "realizada" => $entity->realizada,
+      "id" => $id_tarea
+      )
+    );
+  }
+
+  private function subirImagenesAjax($imagenes){
+    $carpeta = "uploads/imagenes/";
+    $destinos_finales = array();
+    foreach ($imagenes as $imagen) {
+      $destino =  $carpeta.uniqid().$imagen["name"];
+      move_uploaded_file($imagen["tmp_name"], $destino);
+      $destinos_finales[] = $destino;
+    }
+    return $destinos_finales;
+  }
+
+
+  function agregarImagenes($id_tarea, $imagenes){
+    $rutas=$this->subirImagenesAjax($imagenes);
+    $consulta = $this->db->prepare('INSERT INTO imagen(fk_id_tarea,path) VALUES(?,?)');
+    foreach($rutas as $ruta){
+      $consulta->execute(array($id_tarea,$ruta));
+    }
   }
 
 

@@ -29,6 +29,10 @@ else {
       $tareasController = new TareasController();
       $tareasController->realizarTarea();
       break;
+    case ConfigApp::$ACTION_AGREGAR_IMAGENES:
+      $tareasController = new TareasController();
+      $tareasController->agregarImagenes();
+      break;
     default:
       echo 'Pagina no encontrada';
       break;

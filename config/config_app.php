@@ -7,5 +7,6 @@ class ConfigApp {
   public static $ACTION_AGREGAR_TAREA = 'agregar_tarea';
   public static $ACTION_BORRAR_TAREA = 'borrar_tarea';
   public static $ACTION_REALIZAR_TAREA = 'realizar_tarea';
+  public static $ACTION_AGREGAR_IMAGENES = 'agregar_imagenes';
 }
  ?>
